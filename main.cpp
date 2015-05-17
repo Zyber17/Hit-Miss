@@ -4,7 +4,7 @@
 #define len 10000000
 int main()
 {
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();	
     std::cout << "Program Start" << std::endl;
     std::cout << "Creating data structures..." << std::endl;
     int* data = new int[len];
