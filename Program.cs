@@ -61,6 +61,10 @@ namespace StatProj2015
             sdev[0] = Math.Sqrt(sdev[0]);
             sdev[1] = Math.Sqrt(sdev[1]);
             sdev[2] = Math.Sqrt(sdev[2]);
+            int currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.WindowWidth * 2));
+            Console.SetCursorPosition(0, currentLineCursor);
             System.Console.Out.WriteLine("means: " + mean[0] + ", " + mean[1] + ", " + mean[2]);
             System.Console.Out.WriteLine("sdevs: " + sdev[0] + ", " + sdev[1] + ", " + sdev[2]);
         }
