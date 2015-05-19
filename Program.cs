@@ -14,6 +14,8 @@ namespace StatProj2015
         static void Main(string[] args)
         {
             System.Console.Out.WriteLine("Running...");
+            System.Diagnostics.Stopwatch s = new System.Diagnostics.Stopwatch();
+            s.Start();
             Test0();
             Test1();
             Test2();
@@ -30,9 +32,15 @@ namespace StatProj2015
                 n++;
                 if (n % 10 == 0 && n > 0)
                 {
+                    System.Console.Out.WriteLine("Elapsed: " + (s.ElapsedMilliseconds / 1000) + "s");
                     calcStats(data0, data1, data2);
                 }
             }
+            System.Console.SetCursorPosition(0, 1);
+            System.Console.Out.WriteLine(999);
+            calcStats(data0, data1, data2);
+            s.Stop();
+            System.Console.Out.WriteLine("Terminated at t=" + s.ElapsedMilliseconds / 1000f + "s");
             System.Console.Out.WriteLine("Press any key to exit...");
             System.Console.ReadKey();
         }
@@ -61,12 +69,29 @@ namespace StatProj2015
             sdev[0] = Math.Sqrt(sdev[0]);
             sdev[1] = Math.Sqrt(sdev[1]);
             sdev[2] = Math.Sqrt(sdev[2]);
+            double[] kurt = new double[6];
+            for (int i = 0; i < n; i++)
+            {
+                kurt[0] += Math.Pow(data0[i] - mean[0], 4);
+                kurt[3] += (data0[i] - mean[0]) * (data0[i] - mean[0]);
+                kurt[1] += Math.Pow(data1[i] - mean[1], 4);
+                kurt[4] += (data1[i] - mean[1]) * (data1[i] - mean[1]);
+                kurt[2] += Math.Pow(data2[i] - mean[2], 4);
+                kurt[5] += (data2[i] - mean[2]) * (data2[i] - mean[2]);
+            }
+            kurt[0] /= (kurt[3] * kurt[3]);
+            kurt[1] /= (kurt[4] * kurt[4]);
+            kurt[2] /= (kurt[5] * kurt[5]);
+            kurt[0] *= (n * (n + 1) * (n - 1)) / ((n - 2) * (n - 3));
+            kurt[1] *= (n * (n + 1) * (n - 1)) / ((n - 2) * (n - 3));
+            kurt[2] *= (n * (n + 1) * (n - 1)) / ((n - 2) * (n - 3));
             int currentLineCursor = Console.CursorTop;
             Console.SetCursorPosition(0, Console.CursorTop);
-            Console.Write(new string(' ', Console.WindowWidth * 2));
+            Console.Write(new string(' ', Console.WindowWidth * 3));
             Console.SetCursorPosition(0, currentLineCursor);
             System.Console.Out.WriteLine("means: " + mean[0] + ", " + mean[1] + ", " + mean[2]);
             System.Console.Out.WriteLine("sdevs: " + sdev[0] + ", " + sdev[1] + ", " + sdev[2]);
+            System.Console.Out.WriteLine("kurts: " + kurt[0] + ", " + kurt[1] + ", " + kurt[2]);
         }
         public static long Test0()
         {
